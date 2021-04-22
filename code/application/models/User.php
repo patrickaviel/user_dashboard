@@ -117,6 +117,31 @@ class User extends CI_Model {
         return $this->db->query($query, $values);
     }
 
+    function validate_information($user){
+        $this->form_validation->set_error_delimiters('<div>','</div>');
+        $this->form_validation->set_rules('first_name', 'First Name', 'required');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+    
+        if(!$this->form_validation->run()) {
+            return "error";
+        } 
+        else {
+            return "success";
+        }
+    }
+    function update_information($info,$email){
+        $query = "UPDATE users SET first_name = ? , last_name = ? , email = ? , updated_at = ? WHERE email = ?";
+        $values = array(
+            $this->security->xss_clean($info["first_name"]),
+            $this->security->xss_clean($info["last_name"]),
+            $this->security->xss_clean($info["email"]),
+            date("Y-m-d h:i:s"),
+            $this->security->xss_clean($email)); 
+        
+        return $this->db->query($query, $values);
+    }
+
 }
 
 ?>

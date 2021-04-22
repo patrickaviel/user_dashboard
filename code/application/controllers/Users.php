@@ -139,6 +139,31 @@ class Users extends CI_Controller {
         }
     }
 
+    public function editInformation(){
+        $email = $this->session->userdata('email');
+        $form_data = $this->input->post();
+        $result = $this->user->validate_information($form_data);
+        if($result == "success") {
+            $this->user->update_information($form_data,$email);
+            $user = $this->user->get_user_by_email($email);
+            $user_data = array(
+                'user_id'=>$user['id'], 
+                'first_name'=>$user['first_name'],
+                'last_name'=>$user['last_name'],
+                'full_name'=>$user['first_name']. ' ' . $user['last_name'],
+                'email'=>$user['email'],
+                'created_at'=>$user['created_at'],
+                'updated_at'=>$user['updated_at'],
+                'description'=>$user['description']
+            );
+            $this->session->set_userdata($user_data);
+            redirect('users/editProfile');
+        }else{
+            echo "Description should not be empty!";
+        }
+    }
+
+
     public function logoff() {
         $this->session->sess_destroy();
         redirect("/");   

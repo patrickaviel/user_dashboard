@@ -39,7 +39,7 @@
                 <div class="row d-flex justify-content-around">
                     <div class="col-5 border p-3">
                         <h3>Edit Information</h3>
-                        <form action="">
+                        <form action="/users/editInformation" method="POST">
                             <label class="form-label">Email Address: </label>
                             <input type="text" name="email" class="form-control" value="<?= $this->session->userdata('email')?>" placeholder="Email Address">
                             <label class="form-label" >First Name: </label>
@@ -65,7 +65,6 @@
                         <form action="/users/editDescription" method="POST">
                             <textarea class="form-control" name="description" placeholder="Edit your description" style="height: 100px"><?= $this->session->userdata('description')?></textarea>
                             <input type="submit" class="btn btn-primary btn-sm float-end w-25 my-2" value="Save">
-                            <a href="goToWall">wall</a>
                         </form>
                     </div>
                 </div>
