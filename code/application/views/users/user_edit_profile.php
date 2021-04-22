@@ -33,7 +33,6 @@
         </nav>
 
         <div class="container my-2 w-75 p-3 ">
-            
             <h1 class="w-75">Edit Profile</h1>
             <div class="container">
                 <div class="row d-flex justify-content-around">
@@ -69,7 +68,6 @@
                     </div>
                 </div>
             </div>
-            
         </div>
         
     </div>

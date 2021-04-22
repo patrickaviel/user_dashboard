@@ -24,7 +24,6 @@ class User extends CI_Model {
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');        
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-        
         if(!$this->form_validation->run()) {
             return validation_errors();
         }
@@ -42,17 +41,15 @@ class User extends CI_Model {
             "admin", 
             md5($this->security->xss_clean($user["password"])),
             date("Y-m-d h:i:s"),
-            date("Y-m-d h:i:s")); 
-        
+            date("Y-m-d h:i:s")
+        );  
         return $this->db->query($query, $values);
     }
 
     function validate_signin_form() {
-        
         $this->form_validation->set_error_delimiters('<div>','</div>');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
-    
         if(!$this->form_validation->run()) {
             return validation_errors();
         } 
@@ -64,7 +61,6 @@ class User extends CI_Model {
     
     function validate_signin_match($user, $password) {
         $hash_password = md5($this->security->xss_clean($password));
-
         if($user && $user['password'] == $hash_password) {
             return "success";
         }
@@ -76,7 +72,6 @@ class User extends CI_Model {
     function validate_password($user){
         $password = $this->security->xss_clean($user['password']);
         $confirm_password = $this->security->xss_clean($user['confirm_password']);
-
         if($password == $confirm_password) {
             return "success";
         }
@@ -91,14 +86,12 @@ class User extends CI_Model {
             md5($this->security->xss_clean($password["password"])),
             date("Y-m-d h:i:s"),
             $this->security->xss_clean($email)); 
-        
         return $this->db->query($query, $values);
     }
 
     function validate_description($user){
         $this->form_validation->set_error_delimiters('<div>','</div>');
         $this->form_validation->set_rules('description', 'Description', 'required');
-    
         if(!$this->form_validation->run()) {
             return "error";
         } 
@@ -113,7 +106,6 @@ class User extends CI_Model {
             $this->security->xss_clean($description["description"]),
             date("Y-m-d h:i:s"),
             $this->security->xss_clean($email)); 
-        
         return $this->db->query($query, $values);
     }
 
@@ -122,7 +114,6 @@ class User extends CI_Model {
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
-    
         if(!$this->form_validation->run()) {
             return "error";
         } 
@@ -138,7 +129,6 @@ class User extends CI_Model {
             $this->security->xss_clean($info["email"]),
             date("Y-m-d h:i:s"),
             $this->security->xss_clean($email)); 
-        
         return $this->db->query($query, $values);
     }
 

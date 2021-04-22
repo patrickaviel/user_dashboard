@@ -7,18 +7,13 @@ class Users extends CI_Controller {
         parent::__construct();
         $this->load->model('user');
     }
+
 	public function index(){
 		$this->load->view('users/home_page');
 	}
 
     public function showSignInForm(){
-
-            $this->load->view('users/sign_in');
-     
-    }
-
-    public function validate_login(){
-
+        $this->load->view('users/sign_in');
     }
 
     public function process_signin() 
@@ -32,9 +27,7 @@ class Users extends CI_Controller {
         {
             $email = $this->input->post('email');
             $user = $this->user->get_user_by_email($email);
-            
             $result = $this->user->validate_signin_match($user, $this->input->post('password'));
-            
             if($result == "success") 
             {
                 $user_data = array(
@@ -65,7 +58,6 @@ class Users extends CI_Controller {
     public function register(){
         $email = $this->input->post('email');
         $result = $this->user->validate_registration($email);
-        
         if($result!=null)
         {
             $this->session->set_flashdata('input_errors', $result);
@@ -75,10 +67,8 @@ class Users extends CI_Controller {
         {
             $form_data = $this->input->post();
             $this->user->create_user($form_data);
-
             $new_user = $this->user->get_user_by_email($form_data['email']);
             $this->session->set_userdata(array('user_id' => $new_user["id"], 'first_name'=>$new_user['first_name']));
-            
             redirect("users/showDashboard");
         }
     }
@@ -87,6 +77,7 @@ class Users extends CI_Controller {
         $data['users'] = $this->user->get_all_user();
         $this->load->view('users/user_dashboard',$data);
     }
+
     public function addNewUser(){
         $this->load->view('users/add_user');
     }
@@ -95,6 +86,7 @@ class Users extends CI_Controller {
         $user = $this->user->get_user_by_email($email);
         redirect('wall');
     }
+
     public function adminEditUser(){
         $this->load->view('users/admin_edit_profile');
     }
@@ -162,7 +154,6 @@ class Users extends CI_Controller {
             echo "Description should not be empty!";
         }
     }
-
 
     public function logoff() {
         $this->session->sess_destroy();
