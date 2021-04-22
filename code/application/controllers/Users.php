@@ -83,8 +83,19 @@ class Users extends CI_Controller {
     }
     
     public function goToWall($id){
-        $user = $this->user->get_user_by_email($email);
-        redirect('wall');
+        $user = $this->user->get_user_by_id($id);
+        $user_info = array(
+            'user_id'=>$user['id'], 
+            'first_name'=>$user['first_name'],
+            'last_name'=>$user['last_name'],
+            'full_name'=>$user['first_name']. ' ' . $user['last_name'],
+            'email'=>$user['email'],
+            'created_at'=>$user['created_at'],
+            'updated_at'=>$user['updated_at'],
+            'description'=>$user['description']
+        );
+        $this->load->view('users/wall',$user_info);
+        
     }
 
     public function adminEditUser(){

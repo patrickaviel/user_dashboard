@@ -50,7 +50,7 @@
 <?php       for($i=0;$i<count($users);$i++){     ?>
                     <tr>
                         <th scope="row"><?=$users[$i]['user_id']?></th>
-                        <td><a href=""><?=$users[$i]['first_name']?> <?=$users[$i]['last_name']?></a></td>
+                        <td><a href="/users/goToWall/<?=$users[$i]['user_id']?>"><?=$users[$i]['first_name']?> <?=$users[$i]['last_name']?></a></td>
                         <td><?=$users[$i]['email']?></td>
                         <td><?=$users[$i]['created_at']?></td>
                         <td>admin</td>
