@@ -27,7 +27,7 @@
                         <a class="nav-link active" aria-current="page" href="<?= base_url(); ?>">Profile</a>
                         </li>
                     </ul>
-                    <a class="nav-link" href="logoff">Log Off</a>
+                    <a class="nav-link" href="<?= base_url(); ?>users/logoff">Log Off</a>
                 </div>
             </div>
         </nav>
@@ -51,9 +51,13 @@
                             <textarea class="form-control" name="message_input" placeholder="Type your message here..." style="height: 100px"></textarea>
                             <input type="submit" class="btn btn-primary btn-sm float-end w-25 my-2" value="Post">
                         </form>
-                        
+<?php               for($i=0;$i<count($messages);$i++){   ?>
+                        <div class="col-11 border p-3 my-5 mx-auto">
+                            <h5><?= $messages[$i]['message_sender_name'] ?> wrote</h5>
+                            <textarea class="form-control" placeholder="Edit your description" id="floatingTextarea2" style="height: 100px" disabled><?= $messages[$i]['message_content'] ?></textarea>
+                        </div>
                     </div>
-                    
+<?php               }                                        ?>        
                 </div>
             </div>
 

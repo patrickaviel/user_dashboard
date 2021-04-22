@@ -6,6 +6,8 @@ class Users extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('user');
+        $this->load->model('message');
+        $this->load->model('comment');
     }
 
 	public function index(){
@@ -83,6 +85,7 @@ class Users extends CI_Controller {
     }
     
     public function goToWall($id){
+        $data['messages'] = $this->message->get_messages($id);
         $user = $this->user->get_user_by_id($id);
         $user_info = array(
             'user_id'=>$user['id'], 
@@ -92,7 +95,8 @@ class Users extends CI_Controller {
             'email'=>$user['email'],
             'created_at'=>$user['created_at'],
             'updated_at'=>$user['updated_at'],
-            'description'=>$user['description']
+            'description'=>$user['description'],
+            'messages'=>$data['messages']
         );
         $this->load->view('users/wall',$user_info);
         
