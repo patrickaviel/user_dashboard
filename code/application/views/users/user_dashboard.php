@@ -15,7 +15,7 @@
     <div class="container-fluid extend">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="<?= base_url(); ?>">Test App</a>
+                <a class="navbar-brand" href="/users/showDashboard">Test App</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
