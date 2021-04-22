@@ -160,6 +160,20 @@ class User extends CI_Model {
         return $this->db->query($query, $values);
     }
 
+    function create_user_by_admin($user) {
+        $query = "INSERT INTO users (first_name, last_name, email, password,created_at,updated_at) VALUES (?,?,?,?,?,?)";
+        $values = array(
+            $this->security->xss_clean($user['first_name']), 
+            $this->security->xss_clean($user['last_name']), 
+            $this->security->xss_clean($user['email']), 
+            md5($this->security->xss_clean($user["password"])),
+            date("Y-m-d h:i:s"),
+            date("Y-m-d h:i:s")
+        ); 
+        $this->db->query($query,$values);
+        return $this->db->insert_id(); 
+    }
+
 }
 
 ?>

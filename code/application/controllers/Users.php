@@ -101,10 +101,6 @@ class Users extends CI_Controller {
         $data['users'] = $this->user->get_all_user();
         $this->load->view('users/user_dashboard',$data);
     }
-
-    public function addNewUser(){
-        $this->load->view('users/add_user');
-    }
     
     public function goToWall($id){
         $user_messages = $this->message->get_messages($id);
@@ -196,6 +192,28 @@ class Users extends CI_Controller {
             redirect('users/editProfile');
         }else{
             echo "Description should not be empty!";
+        }
+    }
+
+    public function addNewUser(){
+        $this->load->view('users/add_user');
+    }
+
+    public function create_user_admin(){
+        $email = $this->input->post('email');
+        $result = $this->user->validate_registration($email);
+        if($result!=null)
+        {
+            $this->session->set_flashdata('input_errors', $result);
+            redirect("users/addNewUser");
+        }
+        else
+        {
+            $user_level = 'normal';
+            $form_data = $this->input->post();
+            $user_id = $this->user->create_user_by_admin($form_data);
+            $this->user->place_user_level($user_id,$user_level);
+            redirect("users/showDashboard");
         }
     }
 
