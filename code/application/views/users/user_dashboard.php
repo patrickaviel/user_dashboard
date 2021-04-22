@@ -25,10 +25,10 @@
                         <a class="nav-link active" aria-current="page" href="<?= base_url(); ?>">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="<?= base_url(); ?>">Profile</a>
+                        <a class="nav-link active" aria-current="page" href="/users/edit">Profile</a>
                         </li>
                     </ul>
-                    <a class="nav-link" href="sign-in">Log Off</a>
+                    <a class="nav-link" href="logoff">Log Off</a>
                 </div>
             </div>
         </nav>
@@ -47,22 +47,16 @@
                     </tr>
                 </thead>
                 <tbody>
+<?php       for($i=0;$i<count($users);$i++){     ?>
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Michael Choi</td>
-                        <td>michaelchoi@gmail.com</td>
-                        <td>Dec 12th 2012</td>
+                        <th scope="row"><?=$users[$i]['user_id']?></th>
+                        <td><a href=""><?=$users[$i]['first_name']?> <?=$users[$i]['last_name']?></a></td>
+                        <td><?=$users[$i]['email']?></td>
+                        <td><?=$users[$i]['created_at']?></td>
                         <td>admin</td>
                         <td class="text-center d-flex justify-content-around"><a href=""><i class="fas fa-user-edit"></i></a>|<a href=""><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Michael Choi</td>
-                        <td>michaelchoi@gmail.com</td>
-                        <td>Dec 12th 2012</td>
-                        <td>admin</td>
-                        <td class="text-center d-flex justify-content-around"><a href=""><i class="fas fa-user-edit"></i></a>|<a href=""><i class="fas fa-trash-alt"></i></a></td>
-                    </tr>
+<?php       }                                       ?>                     
                 </tbody>
             </table>
         </div>

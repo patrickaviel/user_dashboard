@@ -30,14 +30,14 @@
 
         <div class="container my-5 w-50 p-3 border">
             <h1>Sign In</h1>
-            <form action="users/validate" method="POST">
+            <form action="sign-in/validate" method="POST">
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Email address:</label>
-                    <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    <input type="email" name="email" class="form-control" placeholder="name@example.com">
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Password: </label>
-                    <input type="password" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Password">
+                    <input type="password" name="password" class="form-control" placeholder="Password">
                 </div>
                 <div class="mb-3">
                     <input type="submit" value="Sign In" class="btn btn-primary">

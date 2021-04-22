@@ -27,7 +27,7 @@
                         <a class="nav-link active" aria-current="page" href="<?= base_url(); ?>">Profile</a>
                         </li>
                     </ul>
-                    <a class="nav-link" href="sign-in">Log Off</a>
+                    <a class="nav-link" href="logoff">Log Off</a>
                 </div>
             </div>
         </nav>
@@ -41,31 +41,29 @@
                         <h3>Edit Information</h3>
                         <form action="">
                             <label class="form-label">Email Address: </label>
-                            <input type="text" class="form-control" placeholder="Email Address">
-
+                            <input type="text" name="email" class="form-control" value="<?= $this->session->userdata('email')?>" placeholder="Email Address">
                             <label class="form-label" >First Name: </label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="First Name">
+                            <input type="text" name="first_name" class="form-control" value="<?= $this->session->userdata('first_name')?>" placeholder="First Name">
                             <label class="form-label">Last Name: </label>
-                            <input type="password" class="form-control" placeholder="Last Name">
+                            <input type="text" name="last_name" class="form-control" value="<?= $this->session->userdata('last_name')?>" placeholder="Last Name">
                             <input type="submit" class="btn btn-primary btn-sm float-end w-25 my-2" value="Save">
                         </form>
                     </div>
                     <div class="col-5 border p-3">
                         <h3>Change Password</h3>
-                        <form action="">
+                        <form action="/users/editPassword" method="POST">
                             <label class="form-label">Password:</label>
-                            <input type="password" class="form-control" placeholder="Password">
+                            <input type="password" name="password" class="form-control" value="<?= $this->session->userdata('first_name')?>placeholder="Password">
                        
                             <label class="form-label">Password Confirmation:</label>
-                            <input type="password" class="form-control" placeholder="Confirm Password">
+                            <input type="password" name="confirm_password" class="form-control" value="<?= $this->session->userdata('first_name')?> placeholder="Confirm Password">
                             <input type="submit" class="btn btn-primary btn-sm float-end w-50 my-2" value="Update Password">
                         </form>
                     </div>
                     <div class="col-11 border p-3 my-3">
                         <h3>Edit Description</h3>
-                        <form action="">
-                            <textarea class="form-control" placeholder="Edit your description" id="floatingTextarea2" style="height: 100px"></textarea>
-                            
+                        <form action="/users/editDescription" method="POST">
+                            <textarea class="form-control" name="description" placeholder="Edit your description" style="height: 100px"><?= $this->session->userdata('description')?></textarea>
                             <input type="submit" class="btn btn-primary btn-sm float-end w-25 my-2" value="Save">
                             <a href="goToWall">wall</a>
                         </form>
