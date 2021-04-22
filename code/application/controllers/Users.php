@@ -127,8 +127,50 @@ class Users extends CI_Controller {
         $this->load->view('users/wall',$user_info);  
     }
 
-    public function adminEditUser(){
-        $this->load->view('users/admin_edit_profile');
+    public function adminEditUser($id){
+        $user = $this->user->get_user_by_id($id);
+        $user_info = array(
+            'user_id'=>$user['user_id'], 
+            'first_name'=>$user['first_name'],
+            'last_name'=>$user['last_name'],
+            'full_name'=>$user['first_name']. ' ' . $user['last_name'],
+            'email'=>$user['email'],
+            'created_at'=>$user['created_at'],
+            'updated_at'=>$user['updated_at'],
+            'description'=>$user['description'],
+            'user_level'=>$user['user_type'],
+            'password'=>md5($user['password'])
+        );
+        $this->load->view('users/admin_edit_profile',$user_info);
+    }
+
+    public function editAPassword(){
+        $id = $this->input->post('user_id');
+        $email = $this->input->post('email');
+        $form_data = $this->input->post();
+        $result = $this->user->validate_password($form_data);
+        if($result == "success") {
+            $this->user->update_password($form_data,$email);
+            redirect("users/adminEditUser/'$id'");
+        }else{
+            echo "Passwords do not match!";
+        }
+    }
+
+    public function editADescription(){
+        $email = $this->input->post('email');
+        $id = $this->input->post('user_id');
+        $user_level = $this->input->post('user_level');
+        $form_data = $this->input->post();
+        $result = $this->user->validate_information($form_data);
+        if($result == "success") {
+            $this->user->update_userlevel($user_level,$id);
+            $this->user->update_user_info($form_data,$email);
+            $this->session->set_userdata($user_data);
+            redirect("users/adminEditUser/".$id);
+        }else{
+            echo "Description should not be empty!";
+        }
     }
 
     public function editProfile(){

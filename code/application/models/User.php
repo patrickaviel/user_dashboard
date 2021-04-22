@@ -174,6 +174,24 @@ class User extends CI_Model {
         return $this->db->insert_id(); 
     }
 
+    function update_userlevel($user_level,$id){
+        $query = "UPDATE user_level SET user_type = ?  WHERE user_id = ?";
+        $values = array(
+            $this->security->xss_clean($user_level),
+            $this->security->xss_clean($id)
+        ); 
+        return $this->db->query($query, $values);
+    }
+    function update_user_info($info,$email){
+        $query = "UPDATE users SET first_name = ? , last_name = ? , email = ? , updated_at = ? WHERE email = ?";
+        $values = array(
+            $this->security->xss_clean($info["first_name"]),
+            $this->security->xss_clean($info["last_name"]),
+            $this->security->xss_clean($info["email"]),
+            date("Y-m-d h:i:s"),
+            $this->security->xss_clean($email)); 
+        return $this->db->query($query, $values);
+    }
 }
 
 ?>

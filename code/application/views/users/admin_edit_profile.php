@@ -27,49 +27,49 @@
                         <a class="nav-link active" aria-current="page" href="<?= base_url(); ?>">Profile</a>
                         </li>
                     </ul>
-                    <a class="nav-link" href="sign-in">Log Off</a>
+                    <a class="nav-link" href="/users/logoff">Log Off</a>
                 </div>
             </div>
         </nav>
 
         <div class="container my-2 w-75 p-3 ">
             <div class="d-flex justify-content-between align-items-center ">
-                <h1 class="w-75">Edit User #1</h1>
-                <a class="btn btn-primary" href="dashboard">Return to Dashboard</a>
+                <h1 class="w-75">Edit User #<?= $user_id ?></h1>
+                <a class="btn btn-primary" href="/users/showDashboard">Return to Dashboard</a>
             </div>
             <div class="container">
                 <div class="row d-flex justify-content-around">
                     <div class="col-5 border p-3">
                         <h3>Edit Information</h3>
-                        <form action="">
+                        <form action="/users/editADescription" method="POST">
+                            <input type="hidden" name="user_id" value="<?= $user_id ?>">
                             <label class="form-label">Email Address: </label>
-                            <input type="text" class="form-control" placeholder="Email Address">
-
+                            <input type="email" name="email" class="form-control" value="<?= $email ?>" placeholder="Email Address">
                             <label class="form-label" >First Name: </label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="First Name">
+                            <input type="text" name="first_name" class="form-control" value="<?= $first_name ?>" placeholder="First Name">
                             <label class="form-label">Last Name: </label>
-                            <input type="password" class="form-control" placeholder="Last Name">
+                            <input type="text" name="last_name" class="form-control" value="<?= $last_name ?>" placeholder="Last Name">
                             <div class="input-group mb-3 my-4">
                                 <label class="input-group-text" for="inputGroupSelect01">User Level</label>
-                                <select class="form-select" id="inputGroupSelect01">
-                                    <option selected>Choose...</option>
+                                <select class="form-select" name="user_level">
+                                    <option selected><?= $user_level ?></option>
                                     <option value="normal">Normal</option>
                                     <option value="admin">Admin</option>
                                 </select>
                             </div>
-                            <input type="submit" class="btn btn-primary btn-sm float-end w-25 my-2" value="Save">
+                            <input type="submit" class="btn btn-success btn-sm float-end w-25 my-2" value="Save">
                         </form>
                     </div>
                     <div class="col-5 border p-3">
                         <h3>Change Password</h3>
-                        <form action="">
+                        <form action="/users/editAPassword" method="POST">
                             <label class="form-label">Password:</label>
-                            <input type="password" class="form-control" placeholder="Password">
-                       
+                            <input type="hidden" name="user_id" value="<?= $user_id ?>">
+                            <input type="hidden" name="email" value="<?= $email ?>">
+                            <input type="password" name="password" value="<?= $password ?>" class="form-control" placeholder="Password">
                             <label class="form-label">Password Confirmation:</label>
-                            <input type="password" class="form-control" placeholder="Confirm Password">
-                            <input type="submit" class="btn btn-primary btn-sm float-end w-50 my-2" value="Update Password">
-
+                            <input type="password" name="confirm_password" value="<?= $password ?>" class="form-control" placeholder="Confirm Password">
+                            <input type="submit" class="btn btn-success btn-sm float-end w-50 my-2" value="Update Password">
                         </form>
                     </div>
                 </div>

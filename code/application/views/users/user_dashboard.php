@@ -64,7 +64,7 @@
                         <td><?=$users[$i]['created_at']?></td>
                         <td><?=$users[$i]['user_type']?></td>
 <?php               if($this->session->userdata('user_level') =="admin"){   ?>                       
-                        <td class="text-center d-flex justify-content-around"><a href=""><i class="fas fa-user-edit"></i></a>|<a href=""><i class="fas fa-trash-alt"></i></a></td>
+                        <td class="text-center d-flex justify-content-around"><a href="/users/adminEditUser/<?=$users[$i]['user_id']?>"><i class="fas fa-user-edit"></i></a>|<a href=""><i class="fas fa-trash-alt"></i></a></td>
 <?php               }                                                       ?> 
                     </tr>
 <?php       }                                                               ?>                     
