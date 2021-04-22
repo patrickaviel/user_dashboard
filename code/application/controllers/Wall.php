@@ -37,9 +37,9 @@ class Wall extends CI_Controller {
             $this->session->set_flashdata('input_errors', validation_errors());
         }
         else {
-            $this->comment->add_comment($this->input->post());
+            $profile_id = $this->comment->add_comment($this->input->post());
         }
-        redirect("wall");
+        redirect("users/goToWall/$profile_id");
     }
 
    

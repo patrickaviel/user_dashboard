@@ -51,10 +51,24 @@
                             <textarea class="form-control" name="message_input" placeholder="Type your message here..." style="height: 100px"></textarea>
                             <input type="submit" class="btn btn-primary btn-sm float-end w-25 my-2" value="Post">
                         </form>
-<?php               for($i=0;$i<count($messages);$i++){   ?>
+<?php               foreach($inbox as $message) {   ?>
                         <div class="col-11 border p-3 my-5 mx-auto">
-                            <h5><?= $messages[$i]['message_sender_name'] ?> wrote</h5>
-                            <textarea class="form-control" placeholder="Edit your description" id="floatingTextarea2" style="height: 100px" disabled><?= $messages[$i]['message_content'] ?></textarea>
+                            <h5><?= $message['message_sender_name'] ?> wrote - <?= $message['message_date'] ?></h5>
+                            <textarea class="form-control" placeholder="Edit your description"style="height: 100px" disabled><?= $message['message_content'] ?></textarea>
+<?php                   foreach($message['comments'] as $comment) {   ?>
+                            <div class="col-11 border p-3 my-5 mx-auto">
+                                <h5><?= $comment['comment_sender_name'] ?> - <?= $comment['comment_date'] ?></h5>
+                                <textarea class="form-control" name="comment" style="height: 100px" disabled><?= $comment['comment_content'] ?></textarea>
+                            </div>
+<?php                   }                                        ?> 
+                            <form action="<?=base_url();?>wall/add_comment" method="POST">
+                                <div class="col-11 border p-3 my-5 mx-auto">
+                                    <input type="hidden" name="recepient_id" value="<?= $user_id ?>">
+                                    <input type="hidden" name="message_id" value="<?= $message['message_id'] ?>">
+                                    <textarea class="form-control" name="comment" placeholder="write your message" id="floatingTextarea2" style="height: 100px"></textarea>
+                                    <input type="submit" class="btn btn-primary btn-sm float-end w-25 my-2" value="Post">
+                                </div>
+                            </form>
                         </div>
                     </div>
 <?php               }                                        ?>        

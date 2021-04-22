@@ -85,7 +85,19 @@ class Users extends CI_Controller {
     }
     
     public function goToWall($id){
-        $data['messages'] = $this->message->get_messages($id);
+        //$data['messages'] = $this->message->get_messages($id);
+        //$data['comments'] = $this->comment->get_comments_from_message_id( $data['messages']['message_id'] );
+
+        $user_messages = $this->message->get_messages($id);
+        
+        $inbox = array();
+        foreach($user_messages as $user_message) 
+        {
+            $comments = $this->comment->get_comments_from_message_id($user_message['message_id']);
+            $user_message["comments"] = $comments;
+            $inbox[] = $user_message;
+        }
+
         $user = $this->user->get_user_by_id($id);
         $user_info = array(
             'user_id'=>$user['id'], 
@@ -96,7 +108,9 @@ class Users extends CI_Controller {
             'created_at'=>$user['created_at'],
             'updated_at'=>$user['updated_at'],
             'description'=>$user['description'],
-            'messages'=>$data['messages']
+            //'messages'=>$data['messages'],
+            //'comments'=>$data['comments']
+            'inbox'=>$inbox
         );
         $this->load->view('users/wall',$user_info);
         

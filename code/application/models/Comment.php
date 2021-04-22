@@ -9,9 +9,9 @@ class Comment extends CI_Model {
 
         $query = "SELECT comments.message_id, 
             CONCAT(first_name,' ',last_name) AS comment_sender_name, 
-            comment AS comment_content, comments.created_at AS comment_date 
+            comment AS comment_content, DATE_FORMAT(comments.created_at, '%M %e %Y') AS comment_date 
             FROM comments LEFT JOIN users on comments.user_id=users.id 
-            WHERE comments.message_id=? ORDER BY 4";
+            WHERE comments.message_id=? ORDER BY comment_date ASC";
         
         return $this->db->query($query, $safe_message_id)->result_array();
     }
@@ -19,7 +19,7 @@ class Comment extends CI_Model {
     public function validate_comment() 
     {
         $this->form_validation->set_error_delimiters('<div>','</div>');
-        $this->form_validation->set_rules('comment_input', 'Comment', 'required');
+        $this->form_validation->set_rules('comment', 'Comment', 'required');
 
         if(!$this->form_validation->run()) {
             return validation_errors();
@@ -30,14 +30,19 @@ class Comment extends CI_Model {
     }
 
 
-    public function add_comment($post) 
+    public function add_comment() 
     {
-        $query = 'INSERT INTO Comments(user_id, message_id, comment) VALUES (?, ?, ?)';
-        $values = array($this->security->xss_clean($this->session->userdata('user_id')),
-                    $this->security->xss_clean($post['message_id']), 
-                    $this->security->xss_clean($post['comment_input'])); 
+        $query = 'INSERT INTO comments (user_id, message_id, comment, created_at, updated_at) VALUES (?, ?, ?, ?, ?)';
+        $values = array(
+                    $this->security->xss_clean($this->session->userdata('user_id')),
+                    $this->security->xss_clean($this->input->post('message_id')), 
+                    $this->security->xss_clean($this->input->post('comment')), 
+                    date("Y-m-d h:i:s"),
+                    date("Y-m-d h:i:s")
+                ); 
         
         $this->db->query($query, $values);
+        return $this->input->post('recepient_id');
     }
     
 }

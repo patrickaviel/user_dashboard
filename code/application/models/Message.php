@@ -5,7 +5,7 @@ class Message extends CI_Model {
     
     public function get_messages($id) {
         $query = "SELECT messages.id AS message_id, message AS message_content, 
-                    messages.created_at AS message_date, CONCAT(first_name,' ',last_name) AS message_sender_name 
+                    DATE_FORMAT(messages.created_at, '%M %e %Y') AS message_date, CONCAT(first_name,' ',last_name) AS message_sender_name 
                     FROM messages 
                     LEFT JOIN users on messages.user_id=users.id 
                     WHERE recepient = '$id'
