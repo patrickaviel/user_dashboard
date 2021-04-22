@@ -34,7 +34,14 @@
         </nav>
 
         <div class="container my-5 w-75 p-3">
+<?php   if($this->session->userdata('user_level') =="admin"){                                       ?>                       
+            <div class="d-flex justify-content-between align-items-center ">
+                <h1 class="w-75">Manage Users</h1>
+                <a class="btn btn-primary" href="/users/new"><i class="fas fa-user-plus p-1"></i>Add New</a>
+            </div>   
+<?php   }else{                                      ?>
             <h1 class="w-75">All Users</h1>
+<?php           }                                       ?>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -43,7 +50,9 @@
                     <th scope="col">email</th>
                     <th scope="col">created_at</th>
                     <th scope="col">user_level</th>
-                    <th scope="col">actions</th>
+<?php           if($this->session->userdata('user_level') =="admin"){                                       ?>                       
+                    <th scope="col">actions</th>    
+<?php           }                                       ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,8 +62,10 @@
                         <td><a href="/users/goToWall/<?=$users[$i]['user_id']?>"><?=$users[$i]['first_name']?> <?=$users[$i]['last_name']?></a></td>
                         <td><?=$users[$i]['email']?></td>
                         <td><?=$users[$i]['created_at']?></td>
-                        <td>admin</td>
+                        <td><?=$users[$i]['user_type']?></td>
+<?php               if($this->session->userdata('user_level') =="admin"){                                       ?>                       
                         <td class="text-center d-flex justify-content-around"><a href=""><i class="fas fa-user-edit"></i></a>|<a href=""><i class="fas fa-trash-alt"></i></a></td>
+<?php               }                                       ?> 
                     </tr>
 <?php       }                                       ?>                     
                 </tbody>

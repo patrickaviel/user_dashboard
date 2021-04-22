@@ -39,6 +39,7 @@
                 <p>User ID: <?= $user_id ?></p>
                 <p>Email Address: <?= $email ?></p>
                 <p>Description: <?= $description ?></p>
+                <p>User Type: <?= $user_level ?></p>
             </div>
             
             <div class="container">

@@ -4,8 +4,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class User extends CI_Model {
 
     function get_all_user() { 
-        $query = "SELECT id AS user_id, first_name, last_name, email, created_at, updated_at FROM users";
+        // $query = "SELECT users.id AS user_id, description,first_name, last_name, email, created_at, updated_at, user_level.user_type  
+        // FROM users
+        // INNER JOIN user_level ON users.id = user_level.user_id";
+        $query="SELECT users.id AS user_id, users.description, users.first_name, users.last_name, users.email, users.created_at, users.updated_at, user_level.user_type,users.password 
+        FROM user_level
+        INNER JOIN users ON user_level.user_id = users.id";
         return $this->db->query($query)->result_array();
+    }
+
+    function check_usertype() { 
+        $query = "SELECT * FROM user_level WHERE user_type= 'admin'";
+        return $this->db->query($query)->row();
     }
 
     function get_user_by_email($email) { 
@@ -13,9 +23,20 @@ class User extends CI_Model {
         return $this->db->query($query, $this->security->xss_clean($email))->result_array()[0];
     }
 
-    function get_user_by_id($id) { 
-        $query = "SELECT * FROM users WHERE id=?";
-        return $this->db->query($query, $this->security->xss_clean($id))->result_array()[0];
+    function get_user_by_id($use_id) { 
+        $query = "SELECT users.id AS user_id, users.description, users.first_name, users.last_name, users.email, users.created_at, users.updated_at, user_level.user_type,users.password 
+        FROM user_level
+        INNER JOIN users ON user_level.user_id = users.id
+		WHERE users.id=?";
+        return $this->db->query($query, $this->security->xss_clean($use_id))->result_array()[0];
+    }
+
+    function get_user_by_email_usertype($email) { 
+        $query = "SELECT users.id AS user_id, users.description, users.first_name, users.last_name, users.email, users.created_at, users.updated_at, user_level.user_type,users.password 
+        FROM user_level
+        INNER JOIN users ON user_level.user_id = users.id
+		WHERE users.email=?";
+        return $this->db->query($query, $this->security->xss_clean($email))->result_array()[0];
     }
 
     function validate_registration($email) {
@@ -33,15 +54,22 @@ class User extends CI_Model {
     }
 
     function create_user($user) {
-        $query = "INSERT INTO users (first_name, last_name, email,user_level, password,created_at,updated_at) VALUES (?,?,?,?,?,?,?)";
+        $query = "INSERT INTO users (first_name, last_name, email, password,created_at,updated_at) VALUES (?,?,?,?,?,?)";
         $values = array(
             $this->security->xss_clean($user['first_name']), 
             $this->security->xss_clean($user['last_name']), 
             $this->security->xss_clean($user['email']), 
-            "admin", 
             md5($this->security->xss_clean($user["password"])),
             date("Y-m-d h:i:s"),
             date("Y-m-d h:i:s")
+        );  
+        return $this->db->query($query, $values);
+    }
+    function place_user_level($user_id,$user_level){
+        $query = "INSERT INTO user_level (user_id,user_type) VALUES (?,?)";
+        $values = array(
+            $this->security->xss_clean($user_id), 
+            $this->security->xss_clean($user_level)
         );  
         return $this->db->query($query, $values);
     }

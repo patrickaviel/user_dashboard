@@ -28,7 +28,7 @@ class Users extends CI_Controller {
         else 
         {
             $email = $this->input->post('email');
-            $user = $this->user->get_user_by_email($email);
+            $user = $this->user->get_user_by_email_usertype($email);
             $result = $this->user->validate_signin_match($user, $this->input->post('password'));
             if($result == "success") 
             {
@@ -40,6 +40,7 @@ class Users extends CI_Controller {
                     'email'=>$user['email'],
                     'created_at'=>$user['created_at'],
                     'updated_at'=>$user['updated_at'],
+                    'user_level'=>$user['user_type'],
                     'description'=>$user['description']
                 );
                 $this->session->set_userdata($user_data);            
@@ -67,10 +68,33 @@ class Users extends CI_Controller {
         }
         else
         {
+            $user_type = $this->user->check_usertype();
+            if( $user_type === NULL ){
+                $user_level = 'admin';
+            }else{
+                $user_level = 'normal';
+            }
             $form_data = $this->input->post();
             $this->user->create_user($form_data);
             $new_user = $this->user->get_user_by_email($form_data['email']);
-            $this->session->set_userdata(array('user_id' => $new_user["id"], 'first_name'=>$new_user['first_name']));
+            $user_id = $new_user["id"];
+            $this->user->place_user_level($user_id,$user_level);
+
+            $result_type = $this->user->get_user_by_email($form_data['email']);
+            $user_types = $result_type["user_type"];
+
+            $user_data = array(
+                'user_id'=>$user['user_id'], 
+                'first_name'=>$user['first_name'],
+                'last_name'=>$user['last_name'],
+                'full_name'=>$user['first_name']. ' ' . $user['last_name'],
+                'email'=>$user['email'],
+                'created_at'=>$user['created_at'],
+                'updated_at'=>$user['updated_at'],
+                'user_level'=>$user_types,
+                'description'=>$user['description']
+            );
+            $this->session->set_userdata($user_data); 
             redirect("users/showDashboard");
         }
     }
@@ -100,7 +124,7 @@ class Users extends CI_Controller {
 
         $user = $this->user->get_user_by_id($id);
         $user_info = array(
-            'user_id'=>$user['id'], 
+            'user_id'=>$user['user_id'], 
             'first_name'=>$user['first_name'],
             'last_name'=>$user['last_name'],
             'full_name'=>$user['first_name']. ' ' . $user['last_name'],
@@ -108,6 +132,7 @@ class Users extends CI_Controller {
             'created_at'=>$user['created_at'],
             'updated_at'=>$user['updated_at'],
             'description'=>$user['description'],
+            'user_level'=>$user['user_type'],
             //'messages'=>$data['messages'],
             //'comments'=>$data['comments']
             'inbox'=>$inbox
